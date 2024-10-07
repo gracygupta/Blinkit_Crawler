@@ -72,7 +72,7 @@ async function fetchProductDetails(city, l0_cat, l1_cat, retryCount = 0) {
         }) || [];
 
         // Store products in Firestore
-        await storeProductsInFirestore(city, productDetails);
+        await storeProductsInFirestore(productDetails);
 
         return productDetails;
     } catch (error) {
