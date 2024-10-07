@@ -25,7 +25,10 @@ const fetchProductDetails = async (req, res) => {
         }
 
         // Send immediate response to the client
-        ReS(res, constants.success_code, 'Worker tasks are running in the background.');
+        ReS(res, constants.success_code, 'Product details are being fetched. You can view the details by visiting the provided link.', {
+            api: `https://myrik.aeronex.one/api/fetch-products?city=${city_name}&skip=1&limit=500`,
+            method: 'GET'
+        });
 
         // Step 3: Run worker tasks in the background (no await)
         for (const category of categories) {
