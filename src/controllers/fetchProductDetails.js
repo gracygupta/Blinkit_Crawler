@@ -26,7 +26,7 @@ const fetchProductDetails = async (req, res) => {
 
         // Send immediate response to the client
         ReS(res, constants.success_code, 'Product details are being fetched. You can view the details by visiting the provided link.', {
-            api: `https://myrik.aeronex.one/api/fetch-products?city=${city_name}&skip=1&limit=500`,
+            api: `https://myrik.aeronex.one/api/fetch-products?city=${city}&skip=1&limit=500`,
             method: 'GET'
         });
 
