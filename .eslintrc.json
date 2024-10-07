@@ -1,0 +1,56 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2020
+    },
+    "rules": {
+        // General Best Practices
+        "no-console": "off", // Avoid using console.log, warn if used
+        "no-unused-vars": "warn", // Warn about unused variables
+        "no-undef": "warn", // Warn using undeclared variables
+        "no-magic-numbers": "off", // Avoid magic numbers, use constants
+        "no-var": "error", // Use let or const, not var
+        "prefer-const": "warn", // Prefer const over let when variable is not reassigned
+        "no-unsafe-optional-chaining": "warn",
+        // Stylistic Preferences
+        "indent": [
+            "error",
+            4
+        ], // Use 4 spaces for indentation
+        "quotes": [
+            "error",
+            "single"
+        ], // Prefer single quotes over double quotes
+        "semi": [
+            "error",
+            "always"
+        ], // Enforce semicolons at the end of statements
+        "comma-dangle": [
+            "error",
+            "never"
+        ], // Disallow trailing commas in multiline object literals
+        // ES6+ Features
+        "arrow-parens": [
+            "error",
+            "always"
+        ], // Require parentheses around arrow function parameters
+        "arrow-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ], // Enforce consistent spacing around arrow functions
+        "prefer-template": "warn" // Prefer template literals over string concatenation
+        // Other rules as needed...
+    },
+    "globals": {
+        "process": true,
+        "__dirname": true,
+        "Buffer": true
+    }
+}
