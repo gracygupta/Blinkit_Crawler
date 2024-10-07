@@ -3,10 +3,14 @@ const path = require('path');
 require('dotenv').config();
 const logger = require('../config/logger');
 const { firestore } = require('../config/firebase.config');
+const { delay } = require('./general.helper');
 
 // Fetch categories using fetch with lat and lon headers
-async function fetchCategories(city, lat, lon) {
+async function fetchCategories(city, lat, lon, retryCount = 0) {
     try {
+        const maxRetries = 5;
+        const baseDelay = 2000; // Base delay in milliseconds
+
         const url = `https://blinkit.com/v2/search/deeplink/?expr=%22ch1383%22&restricted=false&version=8`;
 
         // Example headers for latitude, longitude, and cookie
@@ -25,6 +29,20 @@ async function fetchCategories(city, lat, lon) {
 
         // Await the fetch response
         const response = await fetch(url, requestOptions);
+
+
+        if (response.status === 429) {
+            if (retryCount < maxRetries) {
+                const retryAfter = response.headers.get('Retry-After');
+                const delayTime = retryAfter ? parseInt(retryAfter) * 1000 : baseDelay * Math.pow(2, retryCount); // Exponential backoff
+
+                console.log(`Rate limit hit, retrying in ${delayTime / 1000} seconds...`);
+                await delay(delayTime);  // Delay before retrying
+                return fetchCategories(city, lat, lon, retryCount + 1)  // Retry
+            } else {
+                throw new Error('Max retry attempts reached for rate limiting.');
+            }
+        }
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
