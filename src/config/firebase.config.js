@@ -12,7 +12,7 @@ admin.initializeApp({
 const firestore = admin.firestore();
 
 // Function to store products in Firestore
-async function storeProductsInFirestore(city, products) {
+async function storeProductsInFirestore(products) {
     try {
         const batch = firestore.batch();
         products.forEach((product) => {

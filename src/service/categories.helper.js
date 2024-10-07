@@ -19,8 +19,6 @@ async function fetchCategories(city, lat, lon, retryCount = 0) {
         myHeaders.append("lon", lon);
         myHeaders.append("Cookie", process.env.COOKIE);
 
-        console.log("headers", myHeaders);
-
         const requestOptions = {
             method: "GET",
             headers: myHeaders,
@@ -36,7 +34,7 @@ async function fetchCategories(city, lat, lon, retryCount = 0) {
                 const retryAfter = response.headers.get('Retry-After');
                 const delayTime = retryAfter ? parseInt(retryAfter) * 1000 : baseDelay * Math.pow(2, retryCount); // Exponential backoff
 
-                console.log(`Rate limit hit, retrying in ${delayTime / 1000} seconds...`);
+                logger.warn(`Rate limit hit, retrying in ${delayTime / 1000} seconds...`);
                 await delay(delayTime);  // Delay before retrying
                 return fetchCategories(city, lat, lon, retryCount + 1)  // Retry
             } else {
@@ -80,7 +78,6 @@ async function fetchCategories(city, lat, lon, retryCount = 0) {
         return reqData;
 
     } catch (error) {
-        console.log(error)
         logger.error('Error fetching categories:', error);
         throw error;
     }
@@ -93,6 +90,7 @@ function runWorker(city, l0_cat, l1_cat) {
         const worker = new Worker(path.resolve(__dirname, 'worker.js'), {
             workerData: { city, l0_cat, l1_cat }
         });
+
 
         worker.on('message', resolve);
         worker.on('error', reject);
